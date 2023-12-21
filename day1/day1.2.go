@@ -1,6 +1,4 @@
-// Another apporach to try and examine: go from front and back of the string. One from the front, one from the back etc. This could enchance algorithms efficiency.
-
-package main
+package test
 
 import (
 	"bufio"
@@ -10,10 +8,23 @@ import (
 	"strings"
 )
 
+// Define a map to store number-word mappings
+var numberWords = map[string]int{
+	"zero":  0,
+	"one":   1,
+	"two":   2,
+	"three": 3,
+	"four":  4,
+	"five":  5,
+	"six":   6,
+	"seven": 7,
+	"eight": 8,
+	"nine":  9,
+	"ten":   10, // Add more mappings as needed
+}
+
 func main() {
-
 	processedInput := readFile("input.txt")
-
 	stringArr := splitString(processedInput, ' ')
 	sum := sumCreatedNumbersOfStrings(stringArr)
 	fmt.Print(sum)
@@ -72,13 +83,13 @@ func sumCreatedNumbersOfStrings(input []string) int {
 func createListOfNumbersInString(input string) []int {
 	slice := make([]int, 0)
 
-	for _, char := range input {
-		if char >= '0' && char <= '9' {
-			digit, err := strconv.Atoi(string(char))
+	// Split the input string into words
+	words := strings.Fields(input)
 
-			if err == nil {
-				slice = append(slice, digit)
-			}
+	for _, word := range words {
+		// Try to convert the word to a number
+		if num, ok := numberWords[strings.ToLower(word)]; ok {
+			slice = append(slice, num)
 		}
 	}
 	return slice
